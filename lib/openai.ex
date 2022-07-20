@@ -13,6 +13,7 @@ defmodule OpenAI do
   alias OpenAI.Engines
   alias OpenAI.Search
   alias OpenAI.Finetunes
+  alias OpenAI.Files
 
   def start(_type, _args) do
     children = [Config]
@@ -241,6 +242,32 @@ defmodule OpenAI do
   """
   def finetunes(finetune_id) do
     Finetunes.fetch(finetune_id)
+  end
+
+  def files do
+    Files.fetch()
+  end
+
+  def files(file_id) do
+    Files.fetch(file_id)
+  end
+
+  def files_content(file_id) do
+    Files.fetch_content(file_id)
+    |> elem(1)
+    |> String.splitter("\n")
+    |> Enum.at(-1)
+  end
+
+  def finetuning_results(finetune_id) do
+    finetunes(finetune_id)
+    |> elem(1)
+    |> Map.fetch(:result_files)
+    |> elem(1)
+    |> Enum.at(0)
+    |> Map.fetch("id")
+    |> elem(1)
+    |> files_content
   end
 
   # TODO: files apis
