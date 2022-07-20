@@ -16,4 +16,14 @@ defmodule OpenAI.Finetunes do
     url()
     |> Client.api_get()
   end
+
+  def delete(finetune_id) do
+    url("#{finetune_id}/cancel")
+    |> Client.api_post()
+  end
+
+  def events(finetune_id) do
+    url("#{finetune_id}/events")
+    |> Client.api_get()
+  end
 end
