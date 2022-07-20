@@ -268,6 +268,7 @@ defmodule OpenAI do
     |> Map.fetch("id")
     |> elem(1)
     |> files_content
+    |> String.splitter(",")
   end
 
   # TODO: files apis
