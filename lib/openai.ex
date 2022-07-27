@@ -268,7 +268,7 @@ defmodule OpenAI do
   end
 
   def finetuning_results(finetune_id) do
-    results = finetunes(finetune_id)
+    finetunes(finetune_id)
     |> elem(1)
     |> Map.fetch(:result_files)
     |> elem(1)
