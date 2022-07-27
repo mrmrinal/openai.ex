@@ -114,7 +114,7 @@ defmodule OpenAI do
             "finish_reason" => "length",
             "index" => 0,
             "logprobs" => nil,
-            "text" => "\" thing we are given"
+            "text" => " thing we are given"
           }
         ],
         created: 1617147958,
@@ -259,14 +259,16 @@ defmodule OpenAI do
   end
 
   def files_content(file_id) do
-    Files.fetch_content(file_id)
-    |> elem(1)
-    |> String.splitter("\n")
-    |> Enum.at(-1)
+    {:ok, file} = Files.fetch_content(file_id)
+    file
+
+    # |> elem(1)
+    # |> String.splitter("\n")
+    # |> Enum.at(-1)
   end
 
   def finetuning_results(finetune_id) do
-    finetunes(finetune_id)
+    results = finetunes(finetune_id)
     |> elem(1)
     |> Map.fetch(:result_files)
     |> elem(1)

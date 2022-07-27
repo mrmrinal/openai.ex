@@ -23,7 +23,7 @@ defmodule OpenAI.Client do
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
 
-      {:ok, %HTTPoison.Response{body: {error, {:unexpected_token, body}}}} ->
+      {:ok, %HTTPoison.Response{body: {_error, {:unexpected_token, body}}}} ->
         {:ok, body}
     end
   end
