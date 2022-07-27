@@ -259,12 +259,10 @@ defmodule OpenAI do
   end
 
   def files_content(file_id) do
-    {:ok, file} = Files.fetch_content(file_id)
-    file
-
-    # |> elem(1)
-    # |> String.splitter("\n")
-    # |> Enum.at(-1)
+    Files.fetch_content(file_id)
+    |> elem(1)
+    |> String.splitter("\n")
+    |> Enum.at(-1)
   end
 
   def finetuning_results(finetune_id) do
