@@ -47,7 +47,7 @@ defmodule Openai.MixProject do
     [
       {:json, "~> 1.4"},
       {:httpoison, "~> 1.8"},
-      {:mock, "~> 0.3.6"},
+      {:mock, "~> 0.3.0", [env: :prod, repo: "hexpm", hex: "mock", only: :test]},
       {:mix_test_watch, "~> 1.0"},
       {:ex_doc, ">= 0.19.2", only: :dev}
     ]

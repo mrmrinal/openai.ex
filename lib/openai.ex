@@ -13,6 +13,7 @@ defmodule OpenAI do
   alias OpenAI.Engines
   alias OpenAI.Search
   alias OpenAI.Finetunes
+  alias OpenAI.Files
 
   def start(_type, _args) do
     children = [Config]
@@ -113,7 +114,7 @@ defmodule OpenAI do
             "finish_reason" => "length",
             "index" => 0,
             "logprobs" => nil,
-            "text" => "\" thing we are given"
+            "text" => " thing we are given"
           }
         ],
         created: 1617147958,
@@ -333,6 +334,37 @@ defmodule OpenAI do
 
   def image_variations(file_path, params, request_options) do
     Images.Variations.fetch(file_path, params, request_options)
+  end
+
+  def files do
+    Files.fetch()
+  end
+
+  def files(file_id) do
+    Files.fetch(file_id)
+  end
+
+  def files_content(file_id) do
+    case Files.fetch_content(file_id) do
+      {:ok, file} ->
+        file
+        |> String.splitter("\n")
+        |> Enum.at(-1)
+      {:error, _reason} ->
+        files_content(file_id)
+    end
+  end
+
+  def finetuning_results(finetune_id) do
+    finetunes(finetune_id)
+    |> elem(1)
+    |> Map.fetch(:result_files)
+    |> elem(1)
+    |> Enum.at(0)
+    |> Map.fetch("id")
+    |> elem(1)
+    |> files_content
+    |> String.splitter(",")
   end
 
   # TODO: files apis

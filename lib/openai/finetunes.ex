@@ -16,4 +16,9 @@ defmodule OpenAI.Finetunes do
     url()
     |> Client.api_get()
   end
+
+  def events(finetune_id) do
+    url("#{finetune_id}/events")
+    |> Client.api_get()
+  end
 end
